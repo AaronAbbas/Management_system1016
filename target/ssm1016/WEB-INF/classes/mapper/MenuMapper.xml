@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.MenuMapper">
+  <resultMap id="BaseResultMap" type="com.bean.Menu">
+    <id column="menuid" jdbcType="INTEGER" property="menuid" />
+    <result column="menuname" jdbcType="VARCHAR" property="menuname" />
+    <result column="upmenuid" jdbcType="INTEGER" property="upmenuid" />
+    <result column="menupath" jdbcType="VARCHAR" property="menupath" />
+    <result column="menustate" jdbcType="INTEGER" property="menustate" />
+    <result column="menuremark" jdbcType="VARCHAR" property="menuremark" />
+  </resultMap>
+
+<select id="getall" resultMap="BaseResultMap">
+    select * from menu
+</select>
+
+  <select id="getall3" resultMap="BaseResultMap">
+       select * from menu where upmenuid=#{mid}
+ </select>
+
+
+  <select id="findbyroleid" resultMap="BaseResultMap">
+    select * from role r,menu m,middle
+    where middle.menuid=m.menuid and middle.roleid=r.roleid
+    and r.roleid=#{roleid}
+
+  </select>
+
+  <select id="selectid"  resultMap="BaseResultMap">
+    select * from Menu where menuid=#{menuid}
+  </select>
+
+    <delete id="deletebyid"  parameterType="list">
+        delete from menu where menuid in (
+        <foreach collection="list" item="mid" separator=",">
+            #{mid}
+        </foreach>
+        )
+    </delete>
+
+
+
+
+
+  <sql id="Base_Column_List">
+    menuid, menuname, upmenuid, menupath, menustate, menuremark
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from menu
+    where menuid = #{menuid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from menu
+    where menuid = #{menuid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bean.Menu">
+    insert into menu (menuid, menuname, upmenuid, 
+      menupath, menustate, menuremark
+      )
+    values (#{menuid,jdbcType=INTEGER}, #{menuname,jdbcType=VARCHAR}, #{upmenuid,jdbcType=INTEGER}, 
+      #{menupath,jdbcType=VARCHAR}, #{menustate,jdbcType=INTEGER}, #{menuremark,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bean.Menu">
+    insert into menu
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="menuid != null">
+        menuid,
+      </if>
+      <if test="menuname != null">
+        menuname,
+      </if>
+      <if test="upmenuid != null">
+        upmenuid,
+      </if>
+      <if test="menupath != null">
+        menupath,
+      </if>
+      <if test="menustate != null">
+        menustate,
+      </if>
+      <if test="menuremark != null">
+        menuremark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="menuid != null">
+        #{menuid,jdbcType=INTEGER},
+      </if>
+      <if test="menuname != null">
+        #{menuname,jdbcType=VARCHAR},
+      </if>
+      <if test="upmenuid != null">
+        #{upmenuid,jdbcType=INTEGER},
+      </if>
+      <if test="menupath != null">
+        #{menupath,jdbcType=VARCHAR},
+      </if>
+      <if test="menustate != null">
+        #{menustate,jdbcType=INTEGER},
+      </if>
+      <if test="menuremark != null">
+        #{menuremark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bean.Menu">
+    update menu
+    <set>
+      <if test="menuname != null">
+        menuname = #{menuname,jdbcType=VARCHAR},
+      </if>
+      <if test="upmenuid != null">
+        upmenuid = #{upmenuid,jdbcType=INTEGER},
+      </if>
+      <if test="menupath != null">
+        menupath = #{menupath,jdbcType=VARCHAR},
+      </if>
+      <if test="menustate != null">
+        menustate = #{menustate,jdbcType=INTEGER},
+      </if>
+      <if test="menuremark != null">
+        menuremark = #{menuremark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where menuid = #{menuid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bean.Menu">
+    update menu
+    set menuname = #{menuname,jdbcType=VARCHAR},
+      upmenuid = #{upmenuid,jdbcType=INTEGER},
+      menupath = #{menupath,jdbcType=VARCHAR},
+      menustate = #{menustate,jdbcType=INTEGER},
+      menuremark = #{menuremark,jdbcType=VARCHAR}
+    where menuid = #{menuid,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.ScoreMapper">
+  <resultMap id="BaseResultMap" type="com.bean.Score">
+    <id column="middleid" jdbcType="INTEGER" property="middleid" />
+    <result column="examid" jdbcType="INTEGER" property="examid" />
+    <result column="stuid" jdbcType="INTEGER" property="stuid" />
+    <result column="score" jdbcType="INTEGER" property="score" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    middleid, examid, stuid, score
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from score
+    where middleid = #{middleid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from score
+    where middleid = #{middleid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bean.Score">
+    insert into score (middleid, examid, stuid, 
+      score)
+    values (#{middleid,jdbcType=INTEGER}, #{examid,jdbcType=INTEGER}, #{stuid,jdbcType=INTEGER}, 
+      #{score,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bean.Score">
+    insert into score
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="middleid != null">
+        middleid,
+      </if>
+      <if test="examid != null">
+        examid,
+      </if>
+      <if test="stuid != null">
+        stuid,
+      </if>
+      <if test="score != null">
+        score,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="middleid != null">
+        #{middleid,jdbcType=INTEGER},
+      </if>
+      <if test="examid != null">
+        #{examid,jdbcType=INTEGER},
+      </if>
+      <if test="stuid != null">
+        #{stuid,jdbcType=INTEGER},
+      </if>
+      <if test="score != null">
+        #{score,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bean.Score">
+    update score
+    <set>
+      <if test="examid != null">
+        examid = #{examid,jdbcType=INTEGER},
+      </if>
+      <if test="stuid != null">
+        stuid = #{stuid,jdbcType=INTEGER},
+      </if>
+      <if test="score != null">
+        score = #{score,jdbcType=INTEGER},
+      </if>
+    </set>
+    where middleid = #{middleid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bean.Score">
+    update score
+    set examid = #{examid,jdbcType=INTEGER},
+      stuid = #{stuid,jdbcType=INTEGER},
+      score = #{score,jdbcType=INTEGER}
+    where middleid = #{middleid,jdbcType=INTEGER}
+  </update>
+</mapper>

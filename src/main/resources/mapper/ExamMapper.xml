@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.ExamMapper">
+  <resultMap id="BaseResultMap" type="com.bean.Exam">
+    <id column="examid" jdbcType="INTEGER" property="examid" />
+    <result column="examnum" jdbcType="VARCHAR" property="examnum" />
+    <result column="examsubject" jdbcType="VARCHAR" property="examsubject" />
+    <result column="examtime" jdbcType="TIMESTAMP" property="examtime" />
+    <result column="deptid" jdbcType="INTEGER" property="deptid" />
+    <result column="majorid" jdbcType="INTEGER" property="majorid" />
+    <result column="classid" jdbcType="INTEGER" property="classid" />
+    <result column="examcount" jdbcType="INTEGER" property="examcount" />
+    <result column="examstate" jdbcType="VARCHAR" property="examstate" />
+    <association property="major" javaType="com.bean.Major">
+      <id column="majorid" jdbcType="INTEGER" property="majorid" />
+      <result column="majorname" jdbcType="VARCHAR" property="majorname" />
+      <result column="departid" jdbcType="INTEGER" property="departid" />
+    </association>
+    <association property="classes" javaType="com.bean.Classes">
+      <id column="classid" jdbcType="INTEGER" property="classid" />
+      <result column="classnum" jdbcType="VARCHAR" property="classnum" />
+      <result column="classname" jdbcType="VARCHAR" property="classname" />
+      <result column="departid" jdbcType="VARCHAR" property="deptid" />
+      <result column="majorid" jdbcType="VARCHAR" property="majorid" />
+      <result column="classbegin" jdbcType="DATE" property="classbegin" />
+      <result column="classend" jdbcType="DATE" property="classend" />
+      <result column="classcontent" jdbcType="VARCHAR" property="classcontent" />
+      <result column="classqq" jdbcType="VARCHAR" property="classqq" />
+      <result column="tagline" jdbcType="VARCHAR" property="tagline" />
+      <result column="classteacher" jdbcType="VARCHAR" property="classteacher" />
+      <result column="peoplecount" jdbcType="INTEGER" property="peoplecount" />
+      <result column="classstate" jdbcType="VARCHAR" property="classstate" />
+      <result column="auditcount" property="auditcount"/>
+    </association>
+    <association property="department" javaType="com.bean.Department">
+      <id column="departid" jdbcType="INTEGER" property="departid" />
+      <result column="departname" jdbcType="VARCHAR" property="departname" />
+    </association>
+  </resultMap>
+  <sql id="Base_Column_List">
+    examid, examnum, examsubject, examtime, deptid, majorid, classid, examcount, examstate
+  </sql>
+
+
+  <select id="getallbyid" resultMap="BaseResultMap" parameterType="map">
+        select * from classes c,department d,major m,exam e
+        where e.deptid=d.departid and e.majorid=m.majorid and e.classid= c.classid and e.examid=#{examid}
+    </select>
+
+
+
+  <select id="queryall" parameterType="map" resultMap="BaseResultMap">
+    select * from exam e,major m,classes c where e.majorid=m.majorid and e.classid=c.classid
+    <if test="examsubject!=null and examsubject!=''">
+      and e.examsubject like '%${examsubject}%'
+    </if>
+  </select>
+
+
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select *
+    from exam e,classes c,department d,major m
+    where e.examid = #{examid,jdbcType=INTEGER}
+    and e.classid=c.classid
+    and e.majorid=m.majorid
+    and e.deptid=d.departid
+  </select>
+
+
+
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from exam
+    where examid = #{examid,jdbcType=INTEGER}
+  </delete>
+
+
+
+
+
+  <insert id="insert" parameterType="com.bean.Exam">
+    insert into exam (examid, examnum, examsubject, 
+      examtime, deptid, majorid, 
+      classid, examcount, examstate
+      )
+    values (#{examid,jdbcType=INTEGER}, #{examnum,jdbcType=VARCHAR}, #{examsubject,jdbcType=VARCHAR}, 
+      #{examtime,jdbcType=DATE}, #{deptid,jdbcType=INTEGER}, #{majorid,jdbcType=INTEGER}, 
+      #{classid,jdbcType=INTEGER}, #{examcount,jdbcType=INTEGER}, #{examstate,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bean.Exam">
+    insert into exam
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="examid != null">
+        examid,
+      </if>
+      <if test="examnum != null">
+        examnum,
+      </if>
+      <if test="examsubject != null">
+        examsubject,
+      </if>
+      <if test="examtime != null">
+        examtime,
+      </if>
+      <if test="deptid != null">
+        deptid,
+      </if>
+      <if test="majorid != null">
+        majorid,
+      </if>
+      <if test="classid != null">
+        classid,
+      </if>
+      <if test="examcount != null">
+        examcount,
+      </if>
+      <if test="examstate != null">
+        examstate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="examid != null">
+        #{examid,jdbcType=INTEGER},
+      </if>
+      <if test="examnum != null">
+        #{examnum,jdbcType=VARCHAR},
+      </if>
+      <if test="examsubject != null">
+        #{examsubject,jdbcType=VARCHAR},
+      </if>
+      <if test="examtime != null">
+        #{examtime,jdbcType=DATE},
+      </if>
+      <if test="deptid != null">
+        #{deptid,jdbcType=INTEGER},
+      </if>
+      <if test="majorid != null">
+        #{majorid,jdbcType=INTEGER},
+      </if>
+      <if test="classid != null">
+        #{classid,jdbcType=INTEGER},
+      </if>
+      <if test="examcount != null">
+        #{examcount,jdbcType=INTEGER},
+      </if>
+      <if test="examstate != null">
+        #{examstate,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bean.Exam">
+    update exam
+    <set>
+      <if test="examnum != null">
+        examnum = #{examnum,jdbcType=VARCHAR},
+      </if>
+      <if test="examsubject != null">
+        examsubject = #{examsubject,jdbcType=VARCHAR},
+      </if>
+      <if test="examtime != null">
+        examtime = #{examtime,jdbcType=DATE},
+      </if>
+      <if test="deptid != null">
+        deptid = #{deptid,jdbcType=INTEGER},
+      </if>
+      <if test="majorid != null">
+        majorid = #{majorid,jdbcType=INTEGER},
+      </if>
+      <if test="classid != null">
+        classid = #{classid,jdbcType=INTEGER},
+      </if>
+      <if test="examcount != null">
+        examcount = #{examcount,jdbcType=INTEGER},
+      </if>
+      <if test="examstate != null">
+        examstate = #{examstate,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where examid = #{examid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bean.Exam">
+    update exam
+    set examnum = #{examnum,jdbcType=VARCHAR},
+      examsubject = #{examsubject,jdbcType=VARCHAR},
+      examtime = #{examtime,jdbcType=DATE},
+      deptid = #{deptid,jdbcType=INTEGER},
+      majorid = #{majorid,jdbcType=INTEGER},
+      classid = #{classid,jdbcType=INTEGER},
+      examcount = #{examcount,jdbcType=INTEGER},
+      examstate = #{examstate,jdbcType=VARCHAR}
+    where examid = #{examid,jdbcType=INTEGER}
+  </update>
+</mapper>

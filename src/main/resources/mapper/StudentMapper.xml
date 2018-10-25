@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.StudentMapper">
+  <resultMap id="BaseResultMap" type="com.bean.Student">
+    <id column="studentid" jdbcType="INTEGER" property="studentid" />
+    <result column="studentno" jdbcType="VARCHAR" property="studentno" />
+    <result column="stuname" jdbcType="VARCHAR" property="stuname" />
+    <result column="deptid" jdbcType="INTEGER" property="deptid" />
+    <result column="majorid" jdbcType="INTEGER" property="majorid" />
+    <result column="classid" jdbcType="INTEGER" property="classid" />
+    <result column="stusex" jdbcType="VARCHAR" property="stusex" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="registered" jdbcType="VARCHAR" property="registered" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="politics" jdbcType="VARCHAR" property="politics" />
+    <result column="cardid" jdbcType="VARCHAR" property="cardid" />
+    <result column="stucontent" jdbcType="VARCHAR" property="stucontent" />
+    <result column="regdate" jdbcType="DATE" property="regdate" />
+    <result column="stustate" jdbcType="VARCHAR" property="stustate" />
+    <association property="department" javaType="com.bean.Department">
+      <id column="departid" jdbcType="INTEGER" property="departid" />
+      <result column="departname" jdbcType="VARCHAR" property="departname" />
+    </association>
+    <association property="classes" javaType="com.bean.Classes">
+      <id column="classid" jdbcType="INTEGER" property="classid" />
+      <result column="classname" jdbcType="VARCHAR" property="classname" />
+    </association>
+    <association property="major" javaType="com.bean.Major">
+      <id column="majorid" jdbcType="INTEGER" property="majorid" />
+      <result column="majorname" jdbcType="VARCHAR" property="majorname" />
+    </association>
+  </resultMap>
+
+  <select id="getall" resultMap="BaseResultMap" parameterType="map">
+    select * from student c,department d,major m
+    where c.deptid=d.departid and c.majorid=m.majorid
+    <if test="sname!=null and sname!=''">
+      and c.stuname like '%${sname}%'
+    </if>
+    <if test="stunum!=null and stunum!=''">
+      and c.studentid like '%${stunum}%'
+    </if>
+    <if test="sex!=null and sex!=''">
+      and c.stusex like '%${sex}%'
+    </if>
+  </select>
+
+  <select id="getallbyid" resultMap="BaseResultMap" parameterType="map">
+        select * from classes c,department d,major m,student s
+        where s.deptid=d.departid and s.majorid=m.majorid and s.classid= c.classid and s.studentid=#{studentid}
+    </select>
+
+
+
+
+
+
+  <sql id="Base_Column_List">
+    studentid, studentno, stuname, deptid, majorid, classid, stusex, email, phone, registered, 
+    address, politics, cardid, stucontent, regdate, stustate
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from student
+    where studentid = #{studentid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from student
+    where studentid = #{studentid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bean.Student">
+    insert into student (studentid, studentno, stuname, 
+      deptid, majorid, classid, 
+      stusex, email, phone, 
+      registered, address, politics, 
+      cardid, stucontent, regdate, 
+      stustate)
+    values (#{studentid,jdbcType=INTEGER}, #{studentno,jdbcType=VARCHAR}, #{stuname,jdbcType=VARCHAR}, 
+      #{deptid,jdbcType=INTEGER}, #{majorid,jdbcType=INTEGER}, #{classid,jdbcType=INTEGER}, 
+      #{stusex,jdbcType=INTEGER}, #{email,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+      #{registered,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{politics,jdbcType=VARCHAR}, 
+      #{cardid,jdbcType=VARCHAR}, #{stucontent,jdbcType=VARCHAR}, #{regdate,jdbcType=DATE}, 
+      #{stustate,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bean.Student">
+    insert into student
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="studentid != null">
+        studentid,
+      </if>
+      <if test="studentno != null">
+        studentno,
+      </if>
+      <if test="stuname != null">
+        stuname,
+      </if>
+      <if test="deptid != null">
+        deptid,
+      </if>
+      <if test="majorid != null">
+        majorid,
+      </if>
+      <if test="classid != null">
+        classid,
+      </if>
+      <if test="stusex != null">
+        stusex,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="registered != null">
+        registered,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="politics != null">
+        politics,
+      </if>
+      <if test="cardid != null">
+        cardid,
+      </if>
+      <if test="stucontent != null">
+        stucontent,
+      </if>
+      <if test="regdate != null">
+        regdate,
+      </if>
+      <if test="stustate != null">
+        stustate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="studentid != null">
+        #{studentid,jdbcType=INTEGER},
+      </if>
+      <if test="studentno != null">
+        #{studentno,jdbcType=VARCHAR},
+      </if>
+      <if test="stuname != null">
+        #{stuname,jdbcType=VARCHAR},
+      </if>
+      <if test="deptid != null">
+        #{deptid,jdbcType=INTEGER},
+      </if>
+      <if test="majorid != null">
+        #{majorid,jdbcType=INTEGER},
+      </if>
+      <if test="classid != null">
+        #{classid,jdbcType=INTEGER},
+      </if>
+      <if test="stusex != null">
+        #{stusex,jdbcType=INTEGER},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="registered != null">
+        #{registered,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="politics != null">
+        #{politics,jdbcType=VARCHAR},
+      </if>
+      <if test="cardid != null">
+        #{cardid,jdbcType=VARCHAR},
+      </if>
+      <if test="stucontent != null">
+        #{stucontent,jdbcType=VARCHAR},
+      </if>
+      <if test="regdate != null">
+        #{regdate,jdbcType=DATE},
+      </if>
+      <if test="stustate != null">
+        #{stustate,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bean.Student">
+    update student
+    <set>
+      <if test="studentno != null">
+        studentno = #{studentno,jdbcType=VARCHAR},
+      </if>
+      <if test="stuname != null">
+        stuname = #{stuname,jdbcType=VARCHAR},
+      </if>
+      <if test="deptid != null">
+        deptid = #{deptid,jdbcType=INTEGER},
+      </if>
+      <if test="majorid != null">
+        majorid = #{majorid,jdbcType=INTEGER},
+      </if>
+      <if test="classid != null">
+        classid = #{classid,jdbcType=INTEGER},
+      </if>
+      <if test="stusex != null">
+        stusex = #{stusex,jdbcType=INTEGER},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="registered != null">
+        registered = #{registered,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="politics != null">
+        politics = #{politics,jdbcType=VARCHAR},
+      </if>
+      <if test="cardid != null">
+        cardid = #{cardid,jdbcType=VARCHAR},
+      </if>
+      <if test="stucontent != null">
+        stucontent = #{stucontent,jdbcType=VARCHAR},
+      </if>
+      <if test="regdate != null">
+        regdate = #{regdate,jdbcType=DATE},
+      </if>
+      <if test="stustate != null">
+        stustate = #{stustate,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where studentid = #{studentid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bean.Student">
+    update student
+    set studentno = #{studentno,jdbcType=VARCHAR},
+      stuname = #{stuname,jdbcType=VARCHAR},
+      deptid = #{deptid,jdbcType=INTEGER},
+      majorid = #{majorid,jdbcType=INTEGER},
+      classid = #{classid,jdbcType=INTEGER},
+      stusex = #{stusex,jdbcType=INTEGER},
+      email = #{email,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      registered = #{registered,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      politics = #{politics,jdbcType=VARCHAR},
+      cardid = #{cardid,jdbcType=VARCHAR},
+      stucontent = #{stucontent,jdbcType=VARCHAR},
+      regdate = #{regdate,jdbcType=DATE},
+      stustate = #{stustate,jdbcType=VARCHAR}
+    where studentid = #{studentid,jdbcType=INTEGER}
+  </update>
+</mapper>

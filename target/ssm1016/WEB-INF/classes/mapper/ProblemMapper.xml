@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.ProblemMapper">
+  <resultMap id="BaseResultMap" type="com.bean.Problem">
+    <result column="problemid" jdbcType="INTEGER" property="problemid" />
+    <result column="problemtype" jdbcType="VARCHAR" property="problemtype" />
+    <result column="problemcontent" jdbcType="VARCHAR" property="problemcontent" />
+    <result column="classid" jdbcType="INTEGER" property="classid" />
+  </resultMap>
+  <insert id="insert" parameterType="com.bean.Problem">
+    insert into problem (problemid, problemtype, problemcontent, 
+      classid)
+    values (#{problemid,jdbcType=INTEGER}, #{problemtype,jdbcType=VARCHAR}, #{problemcontent,jdbcType=VARCHAR}, 
+      #{classid,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bean.Problem">
+    insert into problem
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="problemid != null">
+        problemid,
+      </if>
+      <if test="problemtype != null">
+        problemtype,
+      </if>
+      <if test="problemcontent != null">
+        problemcontent,
+      </if>
+      <if test="classid != null">
+        classid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="problemid != null">
+        #{problemid,jdbcType=INTEGER},
+      </if>
+      <if test="problemtype != null">
+        #{problemtype,jdbcType=VARCHAR},
+      </if>
+      <if test="problemcontent != null">
+        #{problemcontent,jdbcType=VARCHAR},
+      </if>
+      <if test="classid != null">
+        #{classid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+</mapper>

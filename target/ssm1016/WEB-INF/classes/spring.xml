@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans 
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context 
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx.xsd
+       http://www.springframework.org/schema/mvc
+       http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+
+    <context:component-scan base-package="com"></context:component-scan>
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+    <mvc:annotation-driven></mvc:annotation-driven>
+
+    <!--文件上传-->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="defaultEncoding" value="utf-8"></property>
+        <property name="maxUploadSize" value="10485760"></property>
+    </bean>
+
+    <bean id="db" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/management_system1016"></property>
+        <property name="driverClass" value="com.mysql.jdbc.Driver"></property>
+        <property name="user" value="root"></property>
+        <property name="password" value="123456"></property>
+    </bean>
+
+    <bean id="fac" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="db" ></property>
+        <property name="mapperLocations" value="classpath:/mapper/*.xml"></property>
+        <property name="configLocation" value="classpath:mybatis.xml"></property>
+    </bean>
+   <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+       <property name="basePackage" value="com.dao"></property>
+       <property name="sqlSessionFactory" ref="fac"></property>
+   </bean>
+
+    <!--配置事务-->
+   <bean id="tx" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+       <property name="dataSource" ref="db"></property>
+   </bean>
+   <tx:advice id="ad" transaction-manager="tx"></tx:advice>
+
+    <!--配置静态资源-->
+    <mvc:resources mapping="/book/**" location="/book/"></mvc:resources>
+    <mvc:resources mapping="/css/**" location="/css/"></mvc:resources>
+    <mvc:resources mapping="/dtree/**" location="/dtree/"></mvc:resources>
+    <mvc:resources mapping="/Educational/**" location="/Educational/"></mvc:resources>
+    <mvc:resources mapping="/Images/**" location="/Images/"></mvc:resources>
+    <mvc:resources mapping="/img/**" location="/img/"></mvc:resources>
+    <mvc:resources mapping="/power/**" location="/power/"></mvc:resources>
+    <mvc:resources mapping="/study/**" location="/study/"></mvc:resources>
+    <mvc:resources mapping="/Script/**" location="/Script/"></mvc:resources>
+    <mvc:resources mapping="/Style/**" location="/Style/"></mvc:resources>
+    <mvc:resources mapping="/user/**" location="/user/"></mvc:resources>
+    <mvc:resources mapping="/upload/**" location="/upload/"></mvc:resources>
+</beans>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<taglib>
+
+    <jsp-version>2.0</jsp-version>
+    <description>pageTag</description>
+    <display-name>pageTag</display-name>
+    <tlib-version>1.1</tlib-version>
+    <short-name>letben</short-name>
+    <uri>http://com.letben.tag</uri><!-- 在这里就发现了，这个路径，那么就可以通过前面页面里的uri找到这个tld文件。 -->
+
+    <tag>
+        <name>page</name>
+        <tag-class>com.util.PageTagUtil</tag-class><!-- 发现这个文件能够对应到一个 PageTag的包。 -->
+        <body-content>empty</body-content>
+        <attribute>
+            <name>currentPage</name><!-- 标签儿中出现的属性名 -->
+            <required>true</required><!-- 是否必须出现，是，由于这里面当时忘记了，这个的存在，导致在后面的项目在使用ssh框架的时候，多写了三个属性以及对应的get 和set方法。private String historical，private String method,和什么吧，忘记了，主要是因为 这些属性在只使用servlet开发的时候，这些东西还是有必要给上的，但是在ssh框架里面不再需要了，所以 多写了这样一些没有用的属性和方法。-->
+            <rtexprvalue>true</rtexprvalue><!-- 是否允许值的改写，是 -->
+        </attribute>
+        <attribute>
+            <name>count</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>pageSize</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>url</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>historical</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>method</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+</taglib>

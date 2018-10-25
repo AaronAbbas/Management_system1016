@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.InfotypeMapper">
+  <resultMap id="BaseResultMap" type="com.bean.Infotype">
+    <id column="infoid" jdbcType="INTEGER" property="infoid" />
+    <result column="infotype" jdbcType="VARCHAR" property="infotype" />
+    <association property="information" javaType="com.bean.Information">
+      <id column="informationid" jdbcType="INTEGER" property="informationid" />
+      <result column="informationname" jdbcType="VARCHAR" property="informationname" />
+    </association>
+  </resultMap>
+
+  <select id="gettype" resultMap="BaseResultMap">
+    select * from infotype i,information inf where i.infoid=inf.informationid
+  </select>
+
+  <sql id="Base_Column_List">
+    infoid, infotype
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from infotype
+    where infoid = #{infoid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from infotype
+    where infoid = #{infoid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bean.Infotype">
+    insert into infotype (infoid, infotype)
+    values (#{infoid,jdbcType=INTEGER}, #{infotype,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bean.Infotype">
+    insert into infotype
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="infoid != null">
+        infoid,
+      </if>
+      <if test="infotype != null">
+        infotype,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="infoid != null">
+        #{infoid,jdbcType=INTEGER},
+      </if>
+      <if test="infotype != null">
+        #{infotype,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bean.Infotype">
+    update infotype
+    <set>
+      <if test="infotype != null">
+        infotype = #{infotype,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where infoid = #{infoid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bean.Infotype">
+    update infotype
+    set infotype = #{infotype,jdbcType=VARCHAR}
+    where infoid = #{infoid,jdbcType=INTEGER}
+  </update>
+</mapper>

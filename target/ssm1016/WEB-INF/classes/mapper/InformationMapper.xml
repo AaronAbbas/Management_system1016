@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.InformationMapper">
+  <resultMap id="BaseResultMap" type="com.bean.Information">
+    <id column="informationid" jdbcType="INTEGER" property="informationid" />
+    <result column="informationname" jdbcType="VARCHAR" property="informationname" />
+    <result column="typeid" jdbcType="INTEGER" property="typeid" />
+    <result column="date" jdbcType="DATE" property="date" />
+    <result column="filetype" jdbcType="VARCHAR" property="filetype" />
+    <result column="uploader" jdbcType="VARCHAR" property="uploader" />
+    <result column="uploadpath" jdbcType="VARCHAR" property="uploadpath" />
+    <association property="infotype" javaType="com.bean.Infotype">
+      <id column="infoid" jdbcType="INTEGER" property="infoid" />
+      <result column="infotype" jdbcType="VARCHAR" property="infotype" />
+    </association>
+  </resultMap>
+
+  <select id="selectall" resultMap="BaseResultMap" parameterType="map">
+    select * from information i,infotype inf
+    where i.typeid=inf.infoid
+    <if test="informationname!=null and informationname!=''">
+      and i.informationname like '%${informationname}%'
+    </if>
+    <if test="typeid!=null and typeid!=''">
+      and i.typeid like '%${typeid}%'
+    </if>
+  </select>
+
+  <select id="getallbyid" resultMap="BaseResultMap" parameterType="map">
+        select * from information i,infotype inf
+        where i.typeid=inf.infoid and i.informationid=#{informationid}
+    </select>
+
+
+
+
+
+  <sql id="Base_Column_List">
+    informationid, informationname, typeid, date, filetype, uploader, uploadpath
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from information
+    where informationid = #{informationid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from information
+    where informationid = #{informationid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bean.Information">
+    insert into information (informationid, informationname, typeid, 
+      date, filetype, uploader, uploadpath
+      )
+    values (#{informationid,jdbcType=INTEGER}, #{informationname,jdbcType=VARCHAR}, #{typeid,jdbcType=INTEGER}, 
+      #{date,jdbcType=DATE}, #{filetype,jdbcType=VARCHAR}, #{uploader,jdbcType=VARCHAR}, #{uploadpath,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bean.Information">
+    insert into information
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="informationid != null">
+        informationid,
+      </if>
+      <if test="informationname != null">
+        informationname,
+      </if>
+      <if test="typeid != null">
+        typeid,
+      </if>
+      <if test="date != null">
+        date,
+      </if>
+      <if test="filetype != null">
+        filetype,
+      </if>
+      <if test="uploader != null">
+        uploader,
+      </if>
+      <if test="uploadpath != null">
+        uploadpath,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="informationid != null">
+        #{informationid,jdbcType=INTEGER},
+      </if>
+      <if test="informationname != null">
+        #{informationname,jdbcType=VARCHAR},
+      </if>
+      <if test="typeid != null">
+        #{typeid,jdbcType=INTEGER},
+      </if>
+      <if test="date != null">
+        #{date,jdbcType=DATE},
+      </if>
+      <if test="filetype != null">
+        #{filetype,jdbcType=VARCHAR},
+      </if>
+      <if test="uploader != null">
+        #{uploader,jdbcType=VARCHAR},
+      </if>
+      <if test="uploadpath != null">
+        #{uploadpath,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bean.Information">
+    update information
+    <set>
+      <if test="informationname != null">
+        informationname = #{informationname,jdbcType=VARCHAR},
+      </if>
+      <if test="typeid != null">
+        typeid = #{typeid,jdbcType=INTEGER},
+      </if>
+      <if test="date != null">
+        date = #{date,jdbcType=DATE},
+      </if>
+      <if test="filetype != null">
+        filetype = #{filetype,jdbcType=VARCHAR},
+      </if>
+      <if test="uploader != null">
+        uploader = #{uploader,jdbcType=VARCHAR},
+      </if>
+      <if test="uploadpath != null">
+        uploadpath = #{uploadpath,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where informationid = #{informationid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bean.Information">
+    update information
+    set informationname = #{informationname,jdbcType=VARCHAR},
+      typeid = #{typeid,jdbcType=INTEGER},
+      date = #{date,jdbcType=DATE},
+      filetype = #{filetype,jdbcType=VARCHAR},
+      uploader = #{uploader,jdbcType=VARCHAR},
+      uploadpath = #{uploadpath,jdbcType=VARCHAR}
+    where informationid = #{informationid,jdbcType=INTEGER}
+  </update>
+</mapper>

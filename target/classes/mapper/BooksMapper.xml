@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.BooksMapper">
+  <resultMap id="BaseResultMap" type="com.bean.Books">
+    <id column="bookid" jdbcType="INTEGER" property="bookid" />
+    <result column="bookname" jdbcType="VARCHAR" property="bookname" />
+    <result column="Issuedcount" jdbcType="INTEGER" property="issuedcount" />
+    <result column="issueddate" jdbcType="DATE" property="issueddate" />
+    <result column="bookstate" jdbcType="VARCHAR" property="bookstate" />
+    <result column="bookremark" jdbcType="VARCHAR" property="bookremark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    bookid, bookname, Issuedcount, issueddate, bookstate, bookremark
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from books
+    where bookid = #{bookid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from books
+    where bookid = #{bookid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bean.Books">
+    insert into books (bookid, bookname, Issuedcount, 
+      issueddate, bookstate, bookremark
+      )
+    values (#{bookid,jdbcType=INTEGER}, #{bookname,jdbcType=VARCHAR}, #{issuedcount,jdbcType=INTEGER}, 
+      #{issueddate,jdbcType=DATE}, #{bookstate,jdbcType=VARCHAR}, #{bookremark,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bean.Books">
+    insert into books
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="bookid != null">
+        bookid,
+      </if>
+      <if test="bookname != null">
+        bookname,
+      </if>
+      <if test="issuedcount != null">
+        Issuedcount,
+      </if>
+      <if test="issueddate != null">
+        issueddate,
+      </if>
+      <if test="bookstate != null">
+        bookstate,
+      </if>
+      <if test="bookremark != null">
+        bookremark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="bookid != null">
+        #{bookid,jdbcType=INTEGER},
+      </if>
+      <if test="bookname != null">
+        #{bookname,jdbcType=VARCHAR},
+      </if>
+      <if test="issuedcount != null">
+        #{issuedcount,jdbcType=INTEGER},
+      </if>
+      <if test="issueddate != null">
+        #{issueddate,jdbcType=DATE},
+      </if>
+      <if test="bookstate != null">
+        #{bookstate,jdbcType=VARCHAR},
+      </if>
+      <if test="bookremark != null">
+        #{bookremark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bean.Books">
+    update books
+    <set>
+      <if test="bookname != null">
+        bookname = #{bookname,jdbcType=VARCHAR},
+      </if>
+      <if test="issuedcount != null">
+        Issuedcount = #{issuedcount,jdbcType=INTEGER},
+      </if>
+      <if test="issueddate != null">
+        issueddate = #{issueddate,jdbcType=DATE},
+      </if>
+      <if test="bookstate != null">
+        bookstate = #{bookstate,jdbcType=VARCHAR},
+      </if>
+      <if test="bookremark != null">
+        bookremark = #{bookremark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where bookid = #{bookid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bean.Books">
+    update books
+    set bookname = #{bookname,jdbcType=VARCHAR},
+      Issuedcount = #{issuedcount,jdbcType=INTEGER},
+      issueddate = #{issueddate,jdbcType=DATE},
+      bookstate = #{bookstate,jdbcType=VARCHAR},
+      bookremark = #{bookremark,jdbcType=VARCHAR}
+    where bookid = #{bookid,jdbcType=INTEGER}
+  </update>
+</mapper>
