@@ -35,6 +35,8 @@ public class ClassesControllor {
     private MajorService majorService;
     @Autowired
     private UserTbService userTbService;
+
+
     //查询+登录+模糊查
     /*
     班级查询
@@ -198,7 +200,6 @@ public class ClassesControllor {
                             @RequestParam(value="index",defaultValue = "1") int pageindex,
                             ModelMap map,
                             @RequestParam(value="size",defaultValue = "5") int size){
-
         PageInfo pi= classesService.getall(classname,classnum,pageindex,size,null,"审核中");
         map.put("pi",pi);
         map.put("cname",classname);

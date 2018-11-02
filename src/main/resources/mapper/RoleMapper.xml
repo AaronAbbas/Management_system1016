@@ -18,6 +18,9 @@
   <select id="getallrole" resultMap="BaseResultMap">
     select * from role
   </select>
+  <select id="select" resultMap="BaseResultMap">
+    select * from role
+  </select>
 
 
   <sql id="Base_Column_List">

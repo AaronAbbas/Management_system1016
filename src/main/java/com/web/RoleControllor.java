@@ -27,7 +27,7 @@ public class RoleControllor {
     public String list(@RequestParam(defaultValue = "1") int index,
                        @RequestParam(defaultValue = "5") int size,
                        ModelMap map){
-        PageInfo pageInfo=roleService.getallrole(index,size);
+        PageInfo pageInfo=roleService.getallrole(index,size,1);
         map.put("rpage",pageInfo);
         return "/power/role/list";
     }
@@ -62,7 +62,6 @@ public class RoleControllor {
     @RequestMapping("/power/role/updaterole")
     public String updaterole(Role role,int[] menu){
         roleService.update(role,menu);
-
         return "redirect:/power/role/getroles";
     }
 
@@ -83,4 +82,12 @@ public class RoleControllor {
         }
 
     }
+
+    @RequestMapping("/power/role/upp")
+    public String upp(Role role){
+        roleService.updateByPrimaryKeySelective(role);
+        System.out.println(role.getRoleid()+role.getRolestate());
+        return "redirect:/power/role/getroles";
+    }
+
 }

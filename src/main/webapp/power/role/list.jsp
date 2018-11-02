@@ -81,9 +81,14 @@
                         <c:if test="${r.rolestate==2}">
                             <a href="javascript:alert('操作成功！');">启用</a>
                         </c:if>--%>
-                        <a href="javascript:alert('操作成功！');">
-                                ${r.rolestate==1?"禁用":"启用"}
-                        </a>
+                        <c:if test="${r.rolestate==1}">
+                            <a href="/power/role/upp?roleid=${r.roleid}&rolestate=0">禁用</a>
+                        </c:if>
+                        <c:if test="${r.rolestate==0}">
+                            <a href="/power/role/upp?roleid=${r.roleid}&rolestate=1">启用</a>
+                        </c:if>
+                              <%--  ${r.rolestate==1?"禁用":"启用"}--%>
+
 
                         <a href="/power/role/findbyroid?rid=${r.roleid}">修改</a>
                        <c:if test="${r.roleid!=u1.role.roleid}">

@@ -4,6 +4,8 @@ import com.bean.Menu;
 import com.bean.Role;
 import com.bean.UserTb;
 import com.dao.UserTbMapper;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.service.MenuService;
 import com.service.UserTbService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +26,7 @@ public class UserTbServiceImpl implements UserTbService {
 
     @Override
     public int deleteByPrimaryKey(Integer userId) {
-        return 0;
+        return userTbMapper.deleteByPrimaryKey(userId);
     }
 
     @Override
@@ -54,6 +56,7 @@ public class UserTbServiceImpl implements UserTbService {
 
     @Override
     public UserTb login(UserTb userTb) {
+        System.out.println(userTbMapper+"login...");
         UserTb userTb1=  userTbMapper.login(userTb.getUserName());
         if(userTb1!=null&&userTb1.getUserPs().equals(userTb.getUserPs())){
             if(userTb1.getRole().getRolestate()==1){
@@ -81,6 +84,9 @@ public class UserTbServiceImpl implements UserTbService {
                 //修改登录次数
                 userTb1.setLogincount(userTb1.getLogincount()+1);
                 userTbMapper.updateByPrimaryKeySelective(userTb1);
+                //管理人
+                UserTb manager= userTbMapper.selectByPrimaryKey(userTb1.getManagerid());
+                userTb1.setManger(manager);
                 return userTb1;
             }else{
                 return null;
@@ -98,5 +104,14 @@ public class UserTbServiceImpl implements UserTbService {
         map.put("mid",mid);
         map.put("rolename",rolename);
         return userTbMapper.findall(map);
+    }
+
+    @Override
+    public PageInfo yhfindall(int pageindex,int size) {
+        Map map=new HashMap();
+        PageHelper.startPage(pageindex,size);
+        List list= userTbMapper.yhfindall(map);
+        PageInfo pi=new PageInfo(list);
+        return pi;
     }
 }

@@ -25,6 +25,7 @@ public interface RoleMapper {
     int deletemiddlebyrid(int rid);//根据角色id删除中间表
 
     int findusercountbyroleid(int rid);
+    public List select();
 }
 
 

@@ -1,6 +1,7 @@
 package com.service;
 
 import com.bean.UserTb;
+import com.github.pagehelper.PageInfo;
 
 import java.util.List;
 
@@ -20,6 +21,7 @@ public interface UserTbService {
     UserTb login(UserTb userTb);
     //查询
     List findall(int did, int mid, String rolename);
-
+    //用户查询
+    public PageInfo yhfindall(int pageindex, int size);
 
 }

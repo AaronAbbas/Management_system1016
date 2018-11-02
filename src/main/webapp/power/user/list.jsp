@@ -1,4 +1,5 @@
 <%@ taglib prefix="page" uri="http://com.letben.tag" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page isELIgnored="false" contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
@@ -29,7 +30,7 @@
 			style="float:right;margin-right: 8px;font-weight: bold">
             <a style="text-decoration: none;" href="javascript:alert('操作成功！');">【导出excel】</a>&nbsp;&nbsp;&nbsp;&nbsp;
             <a style="text-decoration: none;" href="javascript:alert('操作成功！');">【批量删除】</a>&nbsp;&nbsp;&nbsp;&nbsp;
-            <a style="text-decoration: none;" href="add.jsp">【新增人员】</a>&nbsp;&nbsp;&nbsp;&nbsp;
+            <a style="text-decoration: none;" href="/power/user/getdepts">【新增人员】</a>&nbsp;&nbsp;&nbsp;&nbsp;
 		</span>
 		</span>
 	</div>
@@ -63,109 +64,41 @@
                         操作
                     </th>
                 </tr>
-                
-               
-                
+
+
+                <c:forEach items="${pi.list}" var="cla" varStatus="sta">
                 <tr align="center">
 					<th><input type="checkbox"/></th>
                     <td>
-                        1
+                            ${sta.count}
                     </td>
-                    
+
                     <td>
-                      zhangsan
+                            ${cla.userName}
                     </td>
                     <td>
-                       <a href="info.jsp">张三</a>
+                            ${cla.userRealname}
                     </td>
                     
                     <td>&nbsp;
-                       管理员
+                            ${cla.role.rolename}
                     </td>
-                    
+
                     <td>&nbsp;
                         <a href="edit.jsp">修改</a>
-						<a href="javascript:void(0)" onclick="del();return false" class="tablelink"> 删除</a>
+						<a href="/power/user/delete?userId=${cla.userId}" onclick="del();" class="tablelink"> 删除</a>
                     </td>
                 </tr>
-                
-                 <tr align="center">
-                   
-                    <th><input type="checkbox"/></th>
-					 <td>
-                        2
-                    </td>
-                    <td>
-                      zhangsan
-                    </td>
-                    <td>
-                       <a href="info.jsp">李四</a>
-                    </td>
-                    
-                    <td>&nbsp;
-                       学生
-                    </td>
-                    <td>&nbsp;
-                        <a href="edit.jsp">修改</a>
-							<a href="JavaScript:void(0)" onclik="del();return false" class="tablelink">删除</a>
-                    </td>
-                </tr>
-                
-                
-                <tr align="center">
-                    <th><input type="checkbox"/></th>
-					<td>
-                        3
-                    </td>
-                    <td>
-                      zhangsan
-                    </td>
-                    <td>
-                       <a href="info.jsp">王五</a>
-                    </td>
-                    
-                    <td>&nbsp;
-                       老师
-                    </td>
-                    <td>&nbsp;
-                        <a href="edit.jsp">修改</a>
-						<a href="JavaScript:void(0)" onclik="del();return false" class="tablelink">删除</a>
-                    </td>
-                </tr>
-				<tr align="center">
-                    <th><input type="checkbox"/></th>
-					<td>
-                        4
-                    </td>
-                    <td>
-                      zhangsan
-                    </td>
-                    <td>
-                       <a href="info.jsp">赵六</a>
-                    </td>
-                    
-                    <td>&nbsp;
-                       主任
-                    </td>
-                    <td>&nbsp;
-                        <a href="edit.jsp">修改</a>
-						<a href="JavaScript:void(0) onclik="del();return false" class="tablelink">删除</a>
-                    </td>
-                </tr>
-                
-                
-               
-                
-               
-                
-                
+                </c:forEach>
+
+
             </tbody>
         </table>
-   <%--  <div class='MainStyle'>
+    <div class='MainStyle'>
          <p align="center">
-             <page:page pageSize="${pi.size }" historical="" method="" url="/Educational/class/getclasslist" currentPage="${pi.pageNum }" count="${[i].total }"/>
+             <page:page pageSize="${pi.size }" historical="" method="" url="/power/user/yhfindall" currentPage="${pi.pageNum }" count="${pi.total }"/>
          </p>
-     </div>--%>
+     </div>
 
     </div>
 

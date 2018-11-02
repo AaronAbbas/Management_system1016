@@ -5,6 +5,39 @@
     <head>
         <meta http-equiv=content-type content="text/html; charset=utf-8" />
         <link href="css/admin.css" type="text/css" rel="stylesheet" />
+        <script type="text/javascript" src="Script/jquery-1.8.0.min.js"></script>
+        <script>
+            $(function(){
+                $("[name=phone]").blur(function(){
+                    var phone= $(this).val();
+                    $.ajax({
+                        url:"getaddress",
+                        data:"phone="+phone,
+                        type:"post",
+                        dataType:"text",
+                        success:function(rs){
+                            var index=rs.lastIndexOf(" ");
+                            rs=rs.substring(index+1);
+                            $("[name=phone]").next().html(rs);
+                        }
+                    })
+                });
+                $("[name=weather]").blur(function(){
+                    var weather= $(this).val();
+                    $.ajax({
+                        url:"getweather",
+                        data:"weather="+weather,
+                        type:"post",
+                        dataType:"text",
+                        success:function(rs){
+                            var index=rs.lastIndexOf(" ");
+                            rs=rs.substring(index+1);
+                            $("[name=weather]").next().html(rs);
+                        }
+                    })
+                });
+            })
+        </script>
     </head>
     <body>
         <table cellspacing=0 cellpadding=0 width="100%" align=center border=0>
@@ -60,8 +93,16 @@
             <tr>
                 <td align=right>上线时间：</td>
                 <td style="color: #880000"><fmt:formatDate value="${logintime}" pattern="yyyy-MM-dd hh:mm:ss"></fmt:formatDate></td></tr>
-           
-           
+            <tr>
+                <td align=right>手机归属地：</td>
+                <td style="color: #880000">
+                    <input type="text" name="phone"><span></span>
+                </td></tr>
+            <tr>
+                <td align=right>天气：</td>
+                <td style="color: #880000">
+                    <input type="text" name="weather"><span></span>
+                </td></tr>
         </table>		
 <div style="text-align:center;">
 <p>维护信息：<a href="http://www.zparkedu.com" target="_blank">湖南管理学院</a></p>

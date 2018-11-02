@@ -1,7 +1,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <%@ page isELIgnored="false" contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="page" uri="http://com.letben.tag" %>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -22,7 +23,7 @@
 	function del(){
 		confirm("确认删除？");
 	}
-
+    var date =new Date();
 </script>
 
 
@@ -31,9 +32,9 @@
 <body>
 	
 	<div class="div_head" style="width: 100%;text-align:center;">
-		<span> <span style="float:left">当前位置是：教务中心-》考试</span> <span
-			style="float:right;margin-right: 8px;font-weight: bold"> <a
-				style="text-decoration: none" href="add.jsp">【新增考试】</a>
+		<span> <span style="float:left">当前位置是：教务中心-》考试</span> 
+			<span style="float:right;margin-right: 8px;font-weight: bold">
+			<a style="text-decoration: none;" href="/Educational/exam/getDepts">【新增考试】</a>&emsp;&emsp;&emsp;&emsp;
 		</span>
 		</span>
 	</div>
@@ -50,7 +51,7 @@
 					</li>
 						
 				</form>
-
+		
 		<table width="100%" border="0" cellspacing="0" cellpadding="0">
 			<tbody>
 				<tr style="height: 25px" align="center">
@@ -63,56 +64,57 @@
 					<th scope="col">操作</th>
 				</tr>
 
+		<c:forEach items="${pi.list}" var="ex">
+				<tr align="center">
+					<td>${ex.examid}</td>
+					<td>${ex.examnum}</td>
+					<td>${ex.examsubject}</td>
+					<td><fmt:formatDate value="${ex.examtime}" pattern='yyyy-MM-dd'></fmt:formatDate></td>
+					<td>${ex.classes.classname}</td>
+					<td>
 
-				<%--<tr align="center">
-					<td>1</td>
-					<td>20150015</td>
-					<td>英语</td>
-					<td>2013-12-18</td>
-					<td>201308J</td>
-					<td>已结束</td>
+					已结束</td>
 					<td>
 						<a href="view.jsp">详细</a>
 						<a href="list.jsp">考试成绩</a>
                         <a href="reAdd.jsp">组织补考</a>
 					</td>
 				</tr>
+		</c:forEach>
+			<%--<tr align="center">
+                <td>2</td>
+                <td>20150017</td>
+                <td>英语</td>
+                <td>2013-12-29</td>
+                <td>201308J</td>
+                <td>进行中</td>
+                <td>
+                    <a href="view.jsp">详细</a>
+                </td>
+            </tr>
+            <tr align="center">
+                <td>3</td>
+                <td>20150018</td>
+                <td>英语</td>
+                <td>2013-12-20</td>
+                <td>201308J</td>
+                <td>准备中</td>
+                <td>
+                    <a href="add.jsp">修改</a>
+                    <a href="javascript:void(0)" onclick="del();return false" class="tablelink"> 删除</a>
+                    <a href="view.jsp">详细</a>
+                </td>
+            </tr>--%>
 
-				<tr align="center">
-					<td>2</td>
-					<td>20150017</td>
-					<td>英语</td>
-					<td>2013-12-29</td>
-					<td>201308J</td>
-					<td>进行中</td>
-					<td>
-						<a href="view.jsp">详细</a>
-					</td>
-				</tr>
-				<tr align="center">
-					<td>3</td>
-					<td>20150018</td>
-					<td>英语</td>
-					<td>2013-12-20</td>
-					<td>201308J</td>
-					<td>准备中</td>
-					<td>
-						<a href="add.jsp">修改</a>
-						<a href="javascript:void(0)" onclick="del();return false" class="tablelink"> 删除</a>
-						<a href="view.jsp">详细</a>
-					</td>
-				</tr>--%>
 
-
-
-				 <tr>
-                        <td colspan="20" style="text-align: center;">						
-						<a style="text-decoration: none;" href="#">
-                            首页 上一页  ... 7 8 9 10 11 12 ... 下一页 尾页 共1234条 每页显示 10/23 </a>
-                        </td>
-                    </tr>
 			</tbody>
 		</table>
+				<div class='MainStyle'>
+					<p align="center">
+						<page:page pageSize="${pi.size }" historical="" method="" url="/Educational/exam/selectexam" currentPage="${pi.pageNum }" count="${pi.total }"/>
+					</p>
+				</div>
+			</ul>
 	</div>
 
 	</div>

@@ -2,7 +2,10 @@ package com.web;
 
 import com.bean.Exam;
 import com.github.pagehelper.PageInfo;
-import com.service.*;
+import com.service.ClassesService;
+import com.service.DepartmentService;
+import com.service.ExamService;
+import com.service.MajorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -40,7 +43,7 @@ public class ExamControllor {
         map.put("examsubject",examsubject);
         map.put("pi",pageInfo);
         map.put("size",size);
-        return "/Educational/exam/list";
+        return "/Educational/exam/exam";
     }
 
 

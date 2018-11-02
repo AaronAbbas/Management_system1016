@@ -39,7 +39,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public int updateByPrimaryKeySelective(Role record) {
-        return 0;
+        return roleMapper.updateByPrimaryKeySelective(record);
     }
 
     @Override
@@ -48,7 +48,9 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public PageInfo getallrole(int index, int size) {
+    public PageInfo getallrole(int index, int size,int rolestate) {
+        Map map=new HashMap();
+        map.put("rolestate",rolestate);
         PageHelper.startPage(index,size);
         List list=roleMapper.getallrole();
         PageInfo pageInfo=new PageInfo(list);
@@ -83,6 +85,12 @@ public class RoleServiceImpl implements RoleService {
 
         return 1;
     }
+
+    @Override
+    public List select() {
+        return roleMapper.select();
+    }
+
 
     @Override
     @Transactional

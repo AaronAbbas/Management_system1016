@@ -21,4 +21,6 @@ public interface UserTbMapper {
     UserTb login(String username);
 
     List findall(Map map);
+    //用户查询
+    List yhfindall(Map map);
 }

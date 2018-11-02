@@ -30,8 +30,25 @@ public class UserTb {
     private Integer logincount;
 
     private Date regdate;
-
     private Role role;
+    private int managerid;
+    private UserTb manger;
+
+    public UserTb getManger() {
+        return manger;
+    }
+
+    public void setManger(UserTb manger) {
+        this.manger = manger;
+    }
+
+    public int getManagerid() {
+        return managerid;
+    }
+
+    public void setManagerid(int managerid) {
+        this.managerid = managerid;
+    }
 
     public Role getRole() {
         return role;

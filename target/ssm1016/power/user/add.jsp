@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page isELIgnored="false" contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
@@ -28,72 +29,71 @@
         </div>
 </div>
 <div class="cztable">
-	<form action="list.jsp" method="post">
+	<form action="/power/user/addyh" method="post">
 <table border="1" width="100%" class="table_a">
                 <tr  width="120px;">
                     <td width="120px">用户名：<span style="color:red">*</span>：</td>
                     <td>
-						<input type="text"  name="f_goods_image" value="杨XX" />
+						<input type="text"  name="userName" value="杨XX" />
 					</td>
                 </tr>
 
 				<tr  width="120px;">
                     <td>密码：<span style="color:red">*</span>：</td>
                     <td>
-						<input type="password"  name="f_goods_image" value="杨XX" />
+						<input type="password"  name="userPs" value="" />
 					</td>
                 </tr>
 
                 <tr  width="120px;">
                     <td>姓名<span style="color:red">*</span>：</td>
                     <td>
-						<input type="text"  name="f_goods_image" value="杨XX" />
+						<input type="text"  name="userRealname" value="杨XX" />
 					</td>
                 </tr>
                 <tr>
                     <td>性别<span style="color:red">*</span>：</td>
                     <td>
-                        <input type="radio" name="gender" checked value="1" />男 <input type="radio" name="gender" value="0"/>女
+                        <input type="radio" name="userSex" checked value="1" />男 <input type="radio" name="gender" value="0"/>女
                     </td>
                 </tr>
 
 				<tr>
                     <td>角色：<span style="color:red">*</span>：</td>
                     <td>
-                        <select>
-							<option>--请选择--</option>
-							<option>管理员</option>
-							<option>主任</option>
-							<option>老师</option>
-						</select>
+                        <select name="roleid">
+                            <c:forEach items="${dlist}" var="d">
+                                <option value="${d.roleid}">${d.rolename}</option>
+                            </c:forEach>
+                        </select>
                     </td>
                 </tr>
 
 				<tr>
                     <td>EMAIL：</td>
                     <td>
-                        <input type="text" name="f_goods_image" value="1332@126.com" />
+                        <input type="text" name="userEmail" value="1332@126.com" />
                     </td>                
                 </tr>
 
 				<tr>
                     <td>联系电话：</td>
                     <td>
-                        <input type="text" name="f_goods_image" value="13333333333" />
+                        <input type="text" name="userPhone" value="13333333333" />
                     </td>                
                 </tr>
 
 				<tr>
                     <td>住址：</td>
                     <td>
-                        <input type="text" name="f_goods_image" value="朝阳" />
+                        <input type="text" name="userAddress" value="朝阳" />
                     </td>                
                 </tr>
 				
 				<tr>
                     <td>身份证号：</td>
                     <td>
-                        <input type="text" name="f_goods_image" value="110111111111111111111" />
+                        <input type="text" name="userIdcard" value="110111111111111111111" />
                     </td>                
                 </tr>
 				
@@ -101,7 +101,7 @@
 				<tr>
                     <td>简介<span style="color:red">*</span>：</td>
                     <td>
-                        <textarea>一个新开辟领域的探讨，探讨摸索</textarea>
+                        <textarea name="userContent">一个新开辟领域的探讨，探讨摸索</textarea>
                     </td>
                 </tr>
 				<tr>
